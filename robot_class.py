@@ -1,6 +1,6 @@
 from math import *
 import random
-
+import numpy as np
 
 ### ------------------------------------- ###
 # Below, is the robot class
@@ -79,14 +79,15 @@ class robot:
             '''
            
         measurements = []
+        
         index=0
         ## TODO: iterate through all of the landmarks in a world
         for landmark in self.landmarks:
-            dx = self.x-landmark[0]+self.rand() * self.measurement_noise
-            dy = self.y-landmark[1]+self.rand() * self.measurement_noise
-            if dx<=self.measurement_range and dy<=self.measurement_range:
+            dx = landmark[0]-self.x+self.rand() * self.measurement_noise
+            dy = landmark[1]-self.y+self.rand() * self.measurement_noise
+            if np.abs(dx)<=self.measurement_range and np.abs(dy)<=self.measurement_range:
                 measurements.append([index,dx,dy])
-                index+=1
+            index+=1
         
         ## TODO: For each landmark
         ## 1. compute dx and dy, the distances between the robot and the landmark
@@ -100,7 +101,6 @@ class robot:
         
         ## TODO: return the final, complete list of measurements
         return measurements
-
 
 
     # --------
